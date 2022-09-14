@@ -13,6 +13,9 @@ const Statistics = ({ good, bad, neutral} ) => {
       <Paragraph text={"good " + good} />
       <Paragraph text={"neutral " + neutral} />
       <Paragraph text={"bad " + bad} />
+      <Paragraph text={"all " + (good + neutral + bad)} />
+      <Paragraph text={"average " + ((good + bad + neutral == 0) ? 0 : ((good + (-1 * bad))/(good + bad + neutral)))} />
+      <Paragraph text={"positive " + ((good + bad + neutral == 0) ? 0 : ((good/(good + bad + neutral)) * 100)) + " %"} />
     </>
   )
 }
