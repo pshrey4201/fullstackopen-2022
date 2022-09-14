@@ -6,7 +6,7 @@ const Paragraph = ( {text} ) => <p>{text}</p>
 const Button = ({ text, handleClick }) => <button onClick={handleClick}>{text}</button>
 
 const Statistics = ({ good, bad, neutral} ) => {
-
+  if(good == 0 && bad == 0 && neutral == 0) return <Paragraph text="No feedback given" />
   return (
     <>
       <Heading text="Statistics" />
@@ -14,8 +14,8 @@ const Statistics = ({ good, bad, neutral} ) => {
       <Paragraph text={"neutral " + neutral} />
       <Paragraph text={"bad " + bad} />
       <Paragraph text={"all " + (good + neutral + bad)} />
-      <Paragraph text={"average " + ((good + bad + neutral == 0) ? 0 : ((good + (-1 * bad))/(good + bad + neutral)))} />
-      <Paragraph text={"positive " + ((good + bad + neutral == 0) ? 0 : ((good/(good + bad + neutral)) * 100)) + " %"} />
+      <Paragraph text={"average " + ((good + (-1 * bad))/(good + bad + neutral))} />
+      <Paragraph text={"positive " + (good/(good + bad + neutral) * 100) + " %"} />
     </>
   )
 }
