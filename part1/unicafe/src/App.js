@@ -1,21 +1,21 @@
 import { useState } from 'react'
 
-const Heading = ( {text} ) => <h1>{text}</h1>
-const Paragraph = ( {text} ) => <p>{text}</p>
+const Heading = ({ text }) => <h1>{text}</h1>
+const StatisticLine = ({ text, value }) => <p>{text} {value}</p>
 
 const Button = ({ text, handleClick }) => <button onClick={handleClick}>{text}</button>
 
 const Statistics = ({ good, bad, neutral} ) => {
-  if(good == 0 && bad == 0 && neutral == 0) return <Paragraph text="No feedback given" />
+  if(good == 0 && bad == 0 && neutral == 0) return <p>No feedback given</p>
   return (
     <>
       <Heading text="Statistics" />
-      <Paragraph text={"good " + good} />
-      <Paragraph text={"neutral " + neutral} />
-      <Paragraph text={"bad " + bad} />
-      <Paragraph text={"all " + (good + neutral + bad)} />
-      <Paragraph text={"average " + ((good + (-1 * bad))/(good + bad + neutral))} />
-      <Paragraph text={"positive " + (good/(good + bad + neutral) * 100) + " %"} />
+      <StatisticLine text="good" value={good} />
+      <StatisticLine text="neutral" value={neutral} />
+      <StatisticLine text="bad" value={bad} />
+      <StatisticLine text="all" value={(good + neutral + bad)} />
+      <StatisticLine text="average" value={((good + (-1 * bad))/(good + bad + neutral))} />
+      <StatisticLine text="positive" value={(good/(good + bad + neutral) * 100) + " %"} />
     </>
   )
 }
