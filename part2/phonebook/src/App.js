@@ -1,27 +1,9 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-
-const Filter = ({ filter, setFilter }) => <>filter shown with <input value={filter} onChange={(event) => setFilter(event.target.value)} /></>
-
-const PersonForm = ({ addName, newName, newNumber, setNewName, setNewNumber }) => {
-  return (
-    <>
-      <form onSubmit={addName}>
-        <div>
-          name: <input value={newName} onChange={(event) => setNewName(event.target.value)} />
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={(event) => setNewNumber(event.target.value)} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-    </>
-  )
-}
-
-const Persons = ({ persons, filter, }) => <>{persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase())).map(person => <div key={person.id}>{person.name} {person.number}</div>)}</>
+import phoneBookService from './components/PhoneBookService'
+import Filter from './components/Filter'
+import PersonForm from './components/PersonForm'
+import Persons from './components/Persons'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -36,24 +18,18 @@ const App = () => {
         name: newName,
         number: newNumber,
       }
-      axios
-        .post('http://localhost:3001/persons', temp)
-        .then(response => {
-          setPersons(persons.concat(response.data))
-          setNewName('')
-          setNewNumber('')
-        })
+      phoneBookService.create(temp).then(response => {
+        setPersons(persons.concat(response))
+        setNewName('')
+        setNewNumber('')
+      })
     } else {
       window.alert(`${newName} is already added to phonebook`)
     }
   }
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data)
-      })
+    phoneBookService.getAll().then(response => setPersons(response))
   }, [])
 
   return (
