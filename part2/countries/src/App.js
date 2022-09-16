@@ -7,7 +7,7 @@ const Country = ({ country }) => {
   return (
     <div>
       <h1>{country.name.common}</h1>
-      {country.capital.map(capital => <p key={capital}>capital {capital}</p>)}
+      {country.capital && country.capital.map(capital => <p key={capital}>capital {capital}</p>)}
       <p>area {country.area}</p>
       <p><strong>languages: </strong></p>
       <ul>
@@ -18,11 +18,21 @@ const Country = ({ country }) => {
   )
 }
 
-const Countries = ({ countries, filter, }) => {
-  const filteredList = countries.filter(country => country.name.common.toLowerCase().includes(filter.toLowerCase()))
+const Countries = ({ countries, filter, setFilter }) => {
+  const filteredList = countries.filter(country => (country.name.common.toLowerCase().includes(filter.toLowerCase()) || (country.name.official.toLowerCase() === filter.toLowerCase())))
   if(filteredList.length > 10) return <p>Too many matches, specify another filter</p>
 
-  if(filteredList.length > 1) return filteredList.map(country => <p key={country.name.official}>{country.name.common}</p>)
+  if(filteredList.length > 1) {
+    return (
+      filteredList.map(country => {
+            return (
+              <div key={country.cca3}>
+                {country.name.common} <button key={country.name.official} onClick={() => setFilter(country.name.official)}>show</button>
+              </div>
+            )
+      })
+    )
+  }
 
   return (
     <div>
@@ -46,7 +56,7 @@ const App = () => {
   return (
     <div>
       <Filter filter={filter} setFilter={setFilter} />
-      <Countries countries={countries} filter={filter} />
+      <Countries countries={countries} filter={filter} setFilter={setFilter} />
     </div>
   )
 }
