@@ -28,6 +28,11 @@ const App = () => {
     }
   }
 
+  const remove = (id) => {
+    if(window.confirm(`Delete ${persons.filter(person => person.id === id)[0].name}?`)) {
+      phoneBookService.remove(id).then(response => setPersons(persons.filter(person => person.id !== id)))
+    }
+  }
   useEffect(() => {
     phoneBookService.getAll().then(response => setPersons(response))
   }, [])
@@ -39,7 +44,7 @@ const App = () => {
       <h3>add a new</h3>
       <PersonForm addName={addName} newName={newName} newNumber={newNumber} setNewName={setNewName} setNewNumber={setNewNumber} />
       <h3>Numbers</h3>
-      <Persons persons={persons} filter={filter} />
+      <Persons persons={persons} filter={filter} remove={remove}/>
     </div>
   )
 }
