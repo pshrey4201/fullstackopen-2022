@@ -24,7 +24,15 @@ const App = () => {
         setNewNumber('')
       })
     } else {
-      window.alert(`${newName} is already added to phonebook`)
+      if(window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+        const temp = persons.filter(person => person.name === newName)[0]
+        temp.number = newNumber
+        phoneBookService.update(temp).then(response => {
+          setPersons(persons.map(person => person.id !== temp.id ? person : response))
+          setNewName('')
+          setNewNumber('')
+        })
+      }
     }
   }
 
