@@ -11,8 +11,8 @@
     "deploy:fly": "fly deploy",
     "deploy:fly-full":"npm run build:ui && npm run deploy:fly",
     "logs:fly-prod": "fly logs",
-    "deploy:heroku": "cd ../../ git subtree split --branch phonebook-backend-heroku --prefix /part3/phonebook-backend && git push heroku phonebook-backend-heroku:main",
-    "deploy:heroku-full": "npm run build:ui && git add . && git commit -m uibuild && npm run deploy:heroku",
+    "deploy:heroku": "cd ../../ && git subtree push --prefix part3/phonebook-backend heroku master",
+    "deploy:heroku-full": "npm run build:ui && npm run deploy:heroku",
     "logs:heroku-prod": "heroku logs --tail"
   },
   "author": "Shrey Patel",
