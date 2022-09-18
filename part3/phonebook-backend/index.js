@@ -9,6 +9,7 @@ morgan.token('data', function getData (req) {
   return ' '
 })
 
+app.use(express.static('build'))
 app.use(cors())
 app.use(express.json())
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :data'))
@@ -36,10 +37,6 @@ let persons = [
   }
 ]
 
-app.get('/', (request, response) => {
-  response.send('<h1>Hello World!</h1>')
-})
-
 app.get('/info', (request, response) => {
   response.send(`
       <p>Phonebook has info for ${persons.length} people</p>
@@ -62,7 +59,7 @@ app.get('/api/persons/:id', (request, response) => {
   }
 })
 
-app.post('/api/persons/:id', (request, response) => {
+app.delete('/api/persons/:id', (request, response) => {
   const id = Number(request.params.id)
   persons = persons.filter(person => person.id !== id)
 

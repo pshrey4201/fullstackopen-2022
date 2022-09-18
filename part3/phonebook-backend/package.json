@@ -6,7 +6,14 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "test"
+    "test": "test",
+    "build:ui": "rm -rf build && cd ../phonebook/ && npm run build && cp -r build ../phonebook-backend",
+    "deploy:fly": "fly deploy",
+    "deploy:fly-full":"npm run build:ui && npm run deploy:fly",
+    "logs:fly-prod": "fly logs",
+    "deploy:heroku": "cd ../../ git subtree split --branch phonebook-backend-heroku --prefix /part3/phonebook-backend && git push heroku phonebook-backend-heroku:main",
+    "deploy:heroku-full": "npm run build:ui && git add . && git commit -m uibuild && npm run deploy",
+    "logs:heroku-prod": "heroku logs --tail"
   },
   "author": "Shrey Patel",
   "license": "ISC",
