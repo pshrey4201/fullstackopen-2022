@@ -33,6 +33,12 @@ const App = () => {
         }, 5000)
         setNewName('')
         setNewNumber('')
+      }).catch(error => {
+        setNotification(error.response.data.error)
+        setClassName('error')
+        setTimeout(() => {
+          setNotification(null)
+        }, 5000)
       })
     } else {
       if(window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
