@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const mongoose = require('mongoose')
 
 if (process.argv.length < 3) {
@@ -17,7 +18,7 @@ const Person = mongoose.model('Person', personSchema)
 
 mongoose
   .connect(url)
-  .then((result) => {
+  .then(() => {
     if (process.argv.length >= 5) {
       const name = process.argv[3]
       const number = process.argv[4]
@@ -27,7 +28,7 @@ mongoose
         number: number,
       })
       person.save().then(() => {
-        console.log("added", name, "number", number, "to the phonebook")
+        console.log('added', name, 'number', number, 'to the phonebook')
         mongoose.connection.close()
       })
     } else {

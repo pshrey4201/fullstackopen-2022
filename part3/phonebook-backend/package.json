@@ -13,7 +13,8 @@
     "logs:fly-prod": "fly logs",
     "deploy:heroku": "cd ../../ && git subtree push --prefix part3/phonebook-backend heroku master",
     "deploy:heroku-full": "npm run build:ui && npm run deploy:heroku",
-    "logs:heroku-prod": "heroku logs --tail"
+    "logs:heroku-prod": "heroku logs --tail",
+    "lint": "eslint ."
   },
   "author": "Shrey Patel",
   "license": "ISC",
@@ -25,6 +26,7 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "eslint": "^8.23.1",
     "nodemon": "^2.0.20"
   }
 }
