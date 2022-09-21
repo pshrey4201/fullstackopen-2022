@@ -64,15 +64,23 @@ app.post('/api/persons', (request, response, next) => {
     })
   }
 
-  const person = new Person({
-    name: body.name,
-    number: body.number,
-  })
+  Person.countDocuments({ name: body.name }).then(count => {
+    if(count) {
+      return response.status(400).json({
+        error: 'name must be unique'
+      })
+    } else {
+      const person = new Person({
+        name: body.name,
+        number: body.number,
+      })
 
-  person.save().then(savedPerson => {
-    console.log(savedPerson)
-    response.json(savedPerson)
-  }).catch(error => next(error))
+      person.save().then(savedPerson => {
+        console.log(savedPerson)
+        response.json(savedPerson)
+      }).catch(error => next(error))
+    }
+  })
 })
 
 app.put('/api/persons/:id', (request, response, next) => {
