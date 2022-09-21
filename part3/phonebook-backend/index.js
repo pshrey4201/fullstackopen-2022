@@ -72,12 +72,7 @@ app.post('/api/persons', (request, response) => {
       error: 'number missing'
     })
   }
-
-  // if (persons.filter(p => p.name === person.name).length > 0) {
-  //   return response.status(400).json({
-  //     error: 'name must be unique'
-  //   })
-  // }
+  
   const person = new Person({
     name: body.name,
     number: body.number,
@@ -87,6 +82,17 @@ app.post('/api/persons', (request, response) => {
     console.log(savedPerson)
     response.json(savedPerson)
   })
+})
+
+app.put('/api/persons/:id', (request, response, next) => {
+
+  const person = {...request.body}
+
+  Person.findByIdAndUpdate(request.params.id, person, { new: true })
+    .then(updatedPerson => {
+      response.json(updatedPerson)
+    })
+    .catch(error => next(error))
 })
 
 const PORT = process.env.PORT || 3001
