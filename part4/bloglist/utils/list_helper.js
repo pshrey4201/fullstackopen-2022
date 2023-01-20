@@ -24,8 +24,39 @@ const favoriteBlog = (blogs) => {
   return favorite
 }
 
+const mostBlogs = (blogs) => {
+  var authors = {}
+  var topAuthor = null
+  blogs.forEach(element => {
+    if(element.author in authors) {
+      authors[element.author] += 1
+    } else {
+      authors[element.author] = 1
+    }
+  })
+
+  Object.entries(authors).forEach(([key, value]) => {
+    if(topAuthor === null) {
+      topAuthor = {
+        author: key,
+        blogs: value
+      }
+    } else {
+      if(topAuthor.blogs < value) {
+        topAuthor = {
+          author: key,
+          blogs: value
+        }
+      }
+    }
+  })
+
+  return topAuthor
+}
+
 module.exports = {
   dummy,
   totalLikes,
-  favoriteBlog
+  favoriteBlog,
+  mostBlogs
 }
