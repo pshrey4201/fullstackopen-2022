@@ -51,6 +51,13 @@ test('there is a blog from Michael Chan', async () => {
   expect(authors).toContain('Michael Chan')
 })
 
+test('unique identifier is named id', async () => {
+  const response = await api.get('/api/blogs')
+  response.body.forEach(value => {
+    expect(value.id).toBeDefined()
+  })
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
