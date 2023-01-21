@@ -79,6 +79,25 @@ test('a valid blog can be added', async () => {
   expect(titles).toContain(newBlog.title)
 })
 
+test('missing likes defaults to 0', async () => {
+  const newBlog = {
+    title: 'React Patterns 3',
+    author: 'Michael Chan',
+    url: 'https://reactpatterns.com/',
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const response = await api.get('/api/blogs')
+  expect(response.body).toHaveLength(initialBlogs.length + 1)
+
+  expect(response.body[initialBlogs.length].likes).toBe(0)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
