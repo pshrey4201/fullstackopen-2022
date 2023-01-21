@@ -140,6 +140,90 @@ test('deleting a blog', async () => {
   expect(ids).not.toContain('5a422a851b54a676234d17f7')
 })
 
+test('updating a blog title', async () => {
+  let response = await api
+    .put('/api/blogs/5a422a851b54a676234d17f7')
+    .send({
+      title: 'blah'
+    })
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+  expect(response.body.title).toBe('blah')
+
+  response = await api.get('/api/blogs')
+  expect(response.body).toHaveLength(initialBlogs.length)
+
+  response.body.forEach(value => {
+    if(value.id === '5a422a851b54a676234d17f7') {
+      expect(value.title).toBe('blah')
+    }
+  })
+})
+
+test('updating a blog author', async () => {
+  let response = await api
+    .put('/api/blogs/5a422a851b54a676234d17f7')
+    .send({
+      author: 'blah'
+    })
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+  expect(response.body.author).toBe('blah')
+
+  response = await api.get('/api/blogs')
+  expect(response.body).toHaveLength(initialBlogs.length)
+
+  response.body.forEach(value => {
+    if(value.id === '5a422a851b54a676234d17f7') {
+      expect(value.author).toBe('blah')
+    }
+  })
+})
+
+test('updating a blog url', async () => {
+  let response = await api
+    .put('/api/blogs/5a422a851b54a676234d17f7')
+    .send({
+      url: 'blah'
+    })
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+  expect(response.body.url).toBe('blah')
+
+  response = await api.get('/api/blogs')
+  expect(response.body).toHaveLength(initialBlogs.length)
+
+  response.body.forEach(value => {
+    if(value.id === '5a422a851b54a676234d17f7') {
+      expect(value.url).toBe('blah')
+    }
+  })
+})
+
+test('updating a blog likes', async () => {
+  let response = await api
+    .put('/api/blogs/5a422a851b54a676234d17f7')
+    .send({
+      likes: 244
+    })
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+  expect(response.body.likes).toBe(244)
+
+  response = await api.get('/api/blogs')
+  expect(response.body).toHaveLength(initialBlogs.length)
+
+  response.body.forEach(value => {
+    if(value.id === '5a422a851b54a676234d17f7') {
+      expect(value.likes).toBe(244)
+    }
+  })
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
