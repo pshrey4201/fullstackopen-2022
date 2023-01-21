@@ -98,6 +98,36 @@ test('missing likes defaults to 0', async () => {
   expect(response.body[initialBlogs.length].likes).toBe(0)
 })
 
+test('missing title or url', async () => {
+  const missingTitle = {
+    author: 'Michael Chan',
+    url: 'https://reactpatterns.com/',
+    likes: 9
+  }
+
+  const missingUrl = {
+    title: 'Missing Title',
+    author: 'Michael Chan',
+    likes: 9,
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(missingTitle)
+    .expect(400)
+
+  let response = await api.get('/api/blogs')
+  expect(response.body).toHaveLength(initialBlogs.length)
+
+  await api
+    .post('/api/blogs')
+    .send(missingUrl)
+    .expect(400)
+
+  response = await api.get('/api/blogs')
+  expect(response.body).toHaveLength(initialBlogs.length)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
